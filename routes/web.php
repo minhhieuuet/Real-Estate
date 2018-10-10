@@ -45,7 +45,9 @@ Route::group(['prefix'=>'admin'],function(){
         return view('admin.product.add');
     });
   });
-  Route::get('/category','CategoryController@home');
+  Route::get('/category',function(){
+    return view('admin.category.index');
+  });
 
 
 });

@@ -2,15 +2,16 @@
 @section('content')
 <div class="content" id="app">
   <div class="container">
-    <form class="" action="index.html" method="post">
+    <form class="" action="{{asset('api/admin/product')}}" method="post">
       <div class="row">
         <div class="form-group col-md-5">
             <label for="">Tiêu đề</label>
-            <input class="form-control" type="text" name="" value="">
+            <input class="form-control" type="text" name="title" placeholder="Nhập tiêu đề  sản phẩm"  value="">
         </div>
         <div class="form-group col-md-5">
             <label for="">Thể loại</label>
-            <select class="form-control" name="">
+            <select class="form-control" name="category_id" >
+                <option value="">Chọn thể loại</option>
                 <option v-for="category in categories" v-bind:value="category.id">@{{category.name}}</option>
             </select>
         </div>
@@ -20,7 +21,8 @@
       <div class="row">
         <div class="form-group col-md-5">
           <label for="">Loại giao dịch</label>
-          <select class="form-control" name="">
+          <select class="form-control" name="type" >
+            <option value="">Chọn loại giao dịch</option>
             <option value="rent">Cho thuê</option>
             <option value="sale">Bán</option>
           </select>
@@ -28,7 +30,7 @@
         <div class="form-group col-md-5">
           <label for="">Giá tiền</label>
           <span>(VNĐ)</span>
-          <input class="form-control" type="number" name="" value="">
+          <input class="form-control" type="number" name="price" placeholder="Nhập giá tiền" value="">
 
         </div>
       </div>
@@ -37,9 +39,8 @@
         <div class="form-group col-md-12">
           <h4>Ảnh và slideshow</h4>
           <label for="">Ảnh đại diện</label>
-          <input type="file" class="form-control" name="" value="">
+          <input type="file" class="form-control" name="image" value="">
           <h5>Slide show</h5>
-          
         </div>
       </div>
       <div class="row">
@@ -52,7 +53,7 @@
         <div class="col-md-5">
               <h4>Đặc điểm nổi bật</h4>
               <!-- Convert amenities array to input -->
-            <input type="hidden" name="amenities" v-bind:value="amenities.join(',')">
+            <input type="hidden" name="amenities" v-bind:value="amenities.join(';')">
             <!-- End convert -->
             <table class="table" style="background-color:white;">
                 <thead>
@@ -86,15 +87,15 @@
           <table class="table">
               <tr>
                 <td><i class="fa fa-user"></i></td>
-                <td><input type="text" class="form-control"></td>
+                <td><input type="text" name="contactName" placeholder="Nhập tên liên hệ" class="form-control"></td>
               </tr>
               <tr>
                 <td><i class="fa fa-phone"></i></td>
-                <td><input type="text" class="form-control"></td>
+                <td><input type="phone" name="contactPhone" placeholder="Nhập số điện thoại liên hệ" class="form-control"></td>
               </tr>
               <tr>
                 <td><i class="fa fa-envelope"></i></td>
-                <td><input type="text" class="form-control"></td>
+                <td><input type="email" name="contactEmail" placeholder="Nhập email liên hệ" class="form-control"></td>
               </tr>
           </table>
         </div>
@@ -102,16 +103,16 @@
       <div class="row">
         <div class="form-group col-md-10">
             <h5>Vị trí</h5>
-            <input class="form-control" type="text" name="" value="">
+            <input class="form-control" type="text" name="location" placeholder="Vui lòng nhập địa chỉ" value="">
         </div>
           <div class="form-group col-md-5">
-            <select class="form-control col-md-5" v-on:change="getDistrict()"  v-model="selectedCity">
+            <select class="form-control col-md-5" name="city_code" v-on:change="getDistrict()"  v-model="selectedCity" >
               <option value="" selected disabled>Thành phố</option>
               <option v-for="city in cities" v-bind:value="city.code" >@{{city.name}}</option>
             </select>
           </div>
           <div class="form-group col-md-5">
-            <select class="form-control col-md-5" v-model="selectedDistrict">
+            <select class="form-control col-md-5" name="district_code" v-model="selectedDistrict">
               <option value="" selected disabled >Quận Huyện</option>
               <option v-for="district in districts" v-bind:value="district.code">@{{district.name_with_type}}</option>
             </select>
@@ -121,11 +122,11 @@
         <h4>Vị trí google map</h4>
         <div class="form-group col-md-3">
             <label for="">Vĩ độ</label>
-            <input type="number" v-model="inputLat" class="form-control" name="" value="0">
+            <input type="number" name="lat" v-model="inputLat" class="form-control" name="lat" value="0">
         </div>
         <div class="form-group col-md-3">
             <label for="">Kinh độ</label>
-            <input type="number" v-model="inputLong" class="form-control" name="" value="0">
+            <input type="number" name="long" v-model="inputLong" class="form-control" name="long" value="0">
         </div>
         <div class="col-md-2">
             <button  @click="previewMap()" class="btn btn-success" type="button" name="button" id="preview-map">Xem trước</button>
@@ -136,9 +137,11 @@
         </div>
         </div>
       </div>
-
+        <button class="btn btn-success c" type="submit" >Gửi</button>
+      </form>
     </div>
-    </form>
+
+
   </div>
 </div>
 <script type="text/javascript">

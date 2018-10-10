@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Contact;
+use App\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -34,7 +35,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = new Product();
+        $product ->category_id = $request->category_id;
+        $product -> user_id = 1;
+        $product -> title = $request -> title;
+        $product -> slug = str_slug($request -> title);
+        $product -> location = $request -> location;
+        $product -> type = $request -> type;
+        $product -> price = $request -> price;
+
+        $product ->save();
+        return $product->id;
     }
 
     /**

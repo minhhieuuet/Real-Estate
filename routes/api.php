@@ -25,4 +25,8 @@ Route::group(['prefix'=>'admin'],function(){
       Route::post('edit','CategoryController@editCategory')->name('category.edit');
       Route::post('toogle','CategoryController@toogleShowHide');
   });
+  
+  Route::group(['prefix'=>'product'],function(){
+    Route::resource('/','ProductController');
+  });
 });

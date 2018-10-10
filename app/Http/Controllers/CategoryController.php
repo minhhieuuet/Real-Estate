@@ -11,9 +11,6 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function home(){
-         return view('admin.category.index');
-     }
     public function index()
     {
       return Category::all();
