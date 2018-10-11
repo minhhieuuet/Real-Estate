@@ -1,7 +1,24 @@
 #info-table i{
     font-size:30px;
 }
-#preview-map{
-  height: 50px;
+#preview-video,#preview-map{
+  height: 45px;
   margin-top:20px;
+}
+#product-submit{
+  height:70px;
+  margin-left:30%;
+  font-size:21px;
+  border-radius:0px;
+  color:crimson;
+  background-color:lightgreen;
+  box-shadow:4px 4px gray;
+  background-color: #F36C8C;
+  font-weight: bold;
+  text-shadow: 1px 1px #F36C8C;
+  color: #ffffff;
+  border: 1px solid #F36C8C;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  margin-top:10px;
 }

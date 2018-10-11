@@ -17,82 +17,59 @@
 </div>
 
 <!-- Page -->
-<section class="page-section">
+<section class="page-section" id="app">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 single-list-page">
         <div class="single-list-slider owl-carousel" id="sl-slider">
-          <div class="sl-item set-bg" data-setbg="client/img/single-list-slider/1.jpg">
-            <div class="sale-notic">FOR SALE</div>
+          @for($i=0;$i<5;$i++)
+          <div class="sl-item set-bg" data-setbg="{{asset('image/product/'.$product['image'])}}">
+            <div class="sale-notic">{{$product['type']=='SALE'?'ĐANG BÁN':'CHO THUÊ'}}</div>
           </div>
-          <div class="sl-item set-bg" data-setbg="client/img/single-list-slider/2.jpg">
-            <div class="rent-notic">FOR Rent</div>
-          </div>
-          <div class="sl-item set-bg" data-setbg="client/img/single-list-slider/3.jpg">
-            <div class="sale-notic">FOR SALE</div>
-          </div>
-          <div class="sl-item set-bg" data-setbg="client/img/single-list-slider/4.jpg">
-            <div class="rent-notic">FOR Rent</div>
-          </div>
-          <div class="sl-item set-bg" data-setbg="client/img/single-list-slider/5.jpg">
-            <div class="sale-notic">FOR SALE</div>
-          </div>
+          @endfor
         </div>
         <div class="owl-carousel sl-thumb-slider" id="sl-slider-thumb">
-          <div class="sl-thumb set-bg" data-setbg="client/img/single-list-slider/1.jpg"></div>
-          <div class="sl-thumb set-bg" data-setbg="client/img/single-list-slider/2.jpg"></div>
-          <div class="sl-thumb set-bg" data-setbg="client/img/single-list-slider/3.jpg"></div>
-          <div class="sl-thumb set-bg" data-setbg="client/img/single-list-slider/4.jpg"></div>
-          <div class="sl-thumb set-bg" data-setbg="client/img/single-list-slider/5.jpg"></div>
+          @for($i=0;$i<5;$i++)
+          <div class="sl-thumb set-bg" data-setbg="{{asset('image/product/'.$product['image'])}}"></div>
+          @endfor
         </div>
         <div class="single-list-content">
           <div class="row">
             <div class="col-xl-8 sl-title">
-              <h2>305 North Palm Drive</h2>
-              <p><i class="fa fa-map-marker"></i>Beverly Hills, CA 90210</p>
+              <h2>{{$product->title}}</h2>
+              <p><i class="fa fa-map-marker"></i> @{{name}}</p>
             </div>
             <div class="col-xl-4">
-              <a href="#" class="price-btn">$4,500,000</a>
+            @if($product->type=="sale")
+              <a href="#" class="price-btn" id="product-price">{{$product->price}}</a>
+            @else
+              <a href="#" class="price-btn" id="product-price">{{$product->price}}</a>
+            @endif
             </div>
           </div>
           <h3 class="sl-sp-title">Thông số</h3>
           <div class="row property-details-list">
             <div class="col-md-4 col-sm-6">
-              <p><i class="fa fa-th-large"></i> 1500 Square foot</p>
-              <p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-              <p><i class="fa fa-user"></i> Gina Wesley</p>
+              <p><i class="fa fa-th-large"></i>Diện tích: {{$product['area']}} m2</p>
+
             </div>
             <div class="col-md-4 col-sm-6">
-              <p><i class="fa fa-car"></i> 2 Garages</p>
-              <p><i class="fa fa-building-o"></i> Family Villa</p>
-              <p><i class="fa fa-clock-o"></i> 1 days ago</p>
+
+              <p><i class="fa fa-clock-o"></i> 1 ngày trước</p>
             </div>
-            <div class="col-md-4">
-              <p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-              <p><i class="fa fa-trophy"></i> 5 years age</p>
-            </div>
+
           </div>
           <h3 class="sl-sp-title">Mô tả</h3>
           <div class="description">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus egestas fermentum ornareste. Donec index lorem. Vestibulum  aliquet odio, eget tempor libero. Cras congue cursus tincidunt. Nullam venenatis dui id orci egestas tincidunt id elit. Nullam ut vuputate justo. Integer lacnia pharetra pretium. Casan ante ipsum primis in faucibus orci luctus et ultrice.</p>
-            </div>
+            <p>{!!$product -> description!!}</p>
+          </div>
           <h3 class="sl-sp-title">Đặc điểm nổi bật</h3>
           <div class="row property-details-list">
+          @foreach(explode(";",$product->amenities) as $amenity )
             <div class="col-md-4 col-sm-6">
-              <p><i class="fa fa-check-circle-o"></i> Air conditioning</p>
-              <p><i class="fa fa-check-circle-o"></i> Telephone</p>
-              <p><i class="fa fa-check-circle-o"></i> Laundry Room</p>
+              <p><i class="fa fa-check-circle-o"></i> {{$amenity}}</p>
             </div>
-            <div class="col-md-4 col-sm-6">
-              <p><i class="fa fa-check-circle-o"></i> Central Heating</p>
-              <p><i class="fa fa-check-circle-o"></i> Family Villa</p>
-              <p><i class="fa fa-check-circle-o"></i> Metro Central</p>
-            </div>
-            <div class="col-md-4">
-              <p><i class="fa fa-check-circle-o"></i> City views</p>
-              <p><i class="fa fa-check-circle-o"></i> Internet</p>
-              <p><i class="fa fa-check-circle-o"></i> Electric Range</p>
-            </div>
+          @endforeach
           </div>
 
 
@@ -109,9 +86,9 @@
           <h3>Liên hệ:</h3>
 
           <div class="author-contact">
-            <p><i class="fa fa-user"></i>Đỗ Minh Hiếu</p>
-            <p><i class="fa fa-phone"></i>(567) 666 121 2233</p>
-            <p><i class="fa fa-envelope"></i>ginawesley26@gmail.com</p>
+            <p><i class="fa fa-user"></i>{{$product->contact['name']}}</p>
+            <p><i class="fa fa-phone"></i>{{$product->contact['phone']}}</p>
+            <p><i class="fa fa-envelope"></i>{{$product->contact['email']}}</p>
           </div>
         </div>
         <div class="contact-form-card">
@@ -171,4 +148,22 @@
   </div>
 </section>
 <!-- Page end -->
+<script type="text/javascript">
+// Add thorusand dot to price
+  Array.from(document.getElementsByClassName('price-btn')).map(btn=>{
+    btn.innerHTML = parseInt(btn.innerHTML).toLocaleString() +" VNĐ";
+
+  })
+</script>
+{{-- Vue script --}}
+<script type="text/javascript">
+  new Vue({
+    el:"#app",
+    data (){
+      return {
+
+      }
+    }
+  })
+</script>
 @endsection

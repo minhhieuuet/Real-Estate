@@ -14,22 +14,31 @@ Tip 2: you can change the color of the active button using the data-active-color
 
         <ul class="nav">
             <li class="active">
-                <a href="dashboard.html">
+                <a href="{{asset('admin')}}">
                     <i class="ti-panel"></i>
-                    <p>Dashboard</p>
+                    <p>Trang chủ</p>
                 </a>
             </li>
             <li>
-                <a href="user.html">
-                    <i class="ti-user"></i>
-                    <p>User Profile</p>
-                </a>
-            </li>
-            <li>
-                <a href="table.html">
+                <a href="{{asset('admin/category')}}">
                     <i class="ti-view-list-alt"></i>
-                    <p>Table List</p>
+                    <p>Danh mục</p>
                 </a>
+            </li>
+            <li>
+              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                <i class="fas fa-box"></i>
+                <p>Sản phẩm</p>
+              </a>
+              <ul class="collapse list-unstyled" id="pageSubmenu">
+                  <li>
+                      <a href="{{asset('admin/product')}}">Danh sách</a>
+                  </li>
+                  <li>
+                      <a href="{{asset('admin/product/add')}}">Thêm</a>
+                  </li>
+
+              </ul>
             </li>
             <li>
                 <a href="typography.html">
@@ -52,15 +61,15 @@ Tip 2: you can change the color of the active button using the data-active-color
             <li>
                 <a href="notifications.html">
                     <i class="ti-bell"></i>
-                    <p>Notifications</p>
+                    <p>Thông báo</p>
                 </a>
             </li>
-    <li class="active-pro">
+    <!-- <li class="active-pro">
                 <a href="upgrade.html">
                     <i class="ti-export"></i>
                     <p>Upgrade to PRO</p>
                 </a>
-            </li>
+            </li> -->
         </ul>
   </div>
 </div>

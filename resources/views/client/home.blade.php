@@ -42,56 +42,28 @@
       <!-- <p>Discover how much the latest properties have been sold for</p> -->
 
     </div>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="propertie-item set-bg" data-setbg="{{asset('client/img/propertie/1.jpg')}}">
-          <div class="sale-notic">FOR SALE</div>
-          <div class="propertie-info text-white">
-            <div class="info-warp">
-              <h5>176 Kingsberry, Dr Anderson</h5>
-              <p><i class="fa fa-map-marker"></i> Rochester, NY 14626</p>
-            </div>
-            <div class="price">$1,777,000</div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="propertie-item set-bg" data-setbg="{{asset('client/img/propertie/2.jpg')}}">
-          <div class="rent-notic">FOR Rent</div>
-          <div class="propertie-info text-white">
-            <div class="info-warp">
-              <h5>45 Lianne Dr, Greece Street</h5>
-              <p><i class="fa fa-map-marker"></i> Tasley, VA 23441</p>
-            </div>
-            <div class="price">$1255/month</div>
-          </div>
-        </div>
+    <div class="row" >
 
-      </div>
-      <div class="col-md-6">
-        <div class="propertie-item set-bg" data-setbg="{{asset('client/img/propertie/2.jpg')}}">
-          <div class="rent-notic">FOR Rent</div>
+      <div class="col-md-6" v-for="product in hotProducts" v-on:click="redirectProduct(product.id)">
+        <div class="propertie-item set-bg" v-bind:style="{backgroundImage:'url('+'image/product/'+product.image+')',cursor:'pointer'}" v-bind:data-setbg="'image/product/'+product.image" >
+          {{--  --}}
+          <div class="sale-notic" v-if="product.type=='sale'" >Đang bán</div>
+          <div class="sale-notic" style="background-color:green" v-if="product.type=='rent'" >Cho thuê</div>
+          {{--  --}}
           <div class="propertie-info text-white">
-            <div class="info-warp">
-              <h5>45 Lianne Dr, Greece Street</h5>
-              <p><i class="fa fa-map-marker"></i> Tasley, VA 23441</p>
+            <div class="info-warp" style="width:300px;">
+              <h5>@{{product.title}}</h5>
+              <p><i class="fa fa-map-marker"></i> @{{product.location}}</sup></p>
+              <p style="float:left"><i class="fa fa-th-large"></i>@{{product.area}} m<sup>2</sup></p>
             </div>
-            <div class="price">$1255/month</div>
+
+            <div v-if="product.type=='sale'" style="background-color:#ea5e3d" class="price">@{{parseInt(product.price).toLocaleString()}} VNĐ</div>
+            <div v-if="product.type=='rent'" class="price">@{{parseInt(product.price).toLocaleString()}} VNĐ/ tháng</div>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="propertie-item set-bg" data-setbg="{{asset('client/img/propertie/2.jpg')}}">
-          <div class="rent-notic">FOR Rent</div>
-          <div class="propertie-info text-white">
-            <div class="info-warp">
-              <h5>45 Lianne Dr, Greece Street</h5>
-              <p><i class="fa fa-map-marker"></i> Tasley, VA 23441</p>
-            </div>
-            <div class="price">$1255/month</div>
-          </div>
-        </div>
-      </div>
+
+
     </div>
   </div>
 </section>
@@ -148,21 +120,21 @@
       <p>Browse houses and flats for sale and to rent in your area</p>
     </div>
     <div class="row">
-      <div class="col-lg-4 col-md-6">
+      <div class="col-lg-4 col-md-6" v-for="product in newProducts">
         <!-- feature -->
         <div class="feature-item">
-          <div class="feature-pic set-bg" data-setbg="{{asset('client/img/feature/1.jpg')}}">
+          <div class="feature-pic set-bg" v-bind:style="{backgroundImage:'url('+'image/product/'+product.image+')',cursor:'pointer'}" v-bind:data-setbg="'image/product/'+product.image">
             <div class="sale-notic">FOR SALE</div>
           </div>
           <div class="feature-text">
             <div class="text-center feature-title">
-              <h5>1963 S Crescent Heights Blvd</h5>
+              <h5>@{{product.title}}</h5>
               <p><i class="fa fa-map-marker"></i> Los Angeles, CA 90034</p>
             </div>
             <div class="room-info-warp">
               <div class="room-info">
                 <div class="rf-left">
-                  <p><i class="fa fa-th-large"></i> 800 Square foot</p>
+                  <p><i class="fa fa-th-large"></i> @{{product.area}} m<sup>2</sup></p>
                   <p><i class="fa fa-bed"></i> 10 Bedrooms</p>
                 </div>
                 <div class="rf-right">
@@ -179,46 +151,12 @@
                 </div>
               </div>
             </div>
-            <a href="client/#" class="room-price">$1,200,000</a>
+            <a target="_blank" v-bind:href="'/product/'+product.id" class="room-price">@{{parseInt(product.price).toLocaleString()}} VNĐ</a>
           </div>
         </div>
       </div>
 
-      <div class="col-lg-4 col-md-6">
-        <!-- feature -->
-        <div class="feature-item">
-          <div class="feature-pic set-bg" data-setbg="{{asset('client/img/feature/3.jpg')}}">
-            <div class="rent-notic">FOR Rent</div>
-          </div>
-          <div class="feature-text">
-            <div class="text-center feature-title">
-              <h5>305 North Palm Drive</h5>
-              <p><i class="fa fa-map-marker"></i> Beverly Hills, CA 90210</p>
-            </div>
-            <div class="room-info-warp">
-              <div class="room-info">
-                <div class="rf-left">
-                  <p><i class="fa fa-th-large"></i> 1500 Square foot</p>
-                  <p><i class="fa fa-bed"></i> 16 Bedrooms</p>
-                </div>
-                <div class="rf-right">
-                  <p><i class="fa fa-car"></i> 2 Garages</p>
-                  <p><i class="fa fa-bath"></i> 8 Bathrooms</p>
-                </div>
-              </div>
-              <div class="room-info">
-                <div class="rf-left">
-                  <p><i class="fa fa-user"></i> Gina Wesley</p>
-                </div>
-                <div class="rf-right">
-                  <p><i class="fa fa-clock-o"></i> 1 days ago</p>
-                </div>
-              </div>
-            </div>
-            <a href="client/#" class="room-price">$2,500/month</a>
-          </div>
-        </div>
-      </div>
+
 
     </div>
   </div>
@@ -384,11 +322,16 @@
         selectedDistrict:'',
         cities:[],
         categories:[],
-        districts:[]
+        districts:[],
+        hotProducts:[],
+        newProducts:[]
       }
     },
     methods:{
-
+      redirectProduct (id){
+        console.log(id);
+        window.open(window.location.origin+'/product/'+id,'_blank');
+      },
       getDistrict (){
         console.log(this.selectedCity);
         axios.get('/data/quan_huyen.json').then(response=>{
@@ -404,16 +347,26 @@
 
     }
     ,
-    computed:{
+    beforeCreate (){
+      axios.get('/api/product/hot').then(response =>{
 
+        this.hotProducts = response.data;
+
+      }),
+      axios.get('/api/product/new').then(response =>{
+
+        this.newProducts = response.data;
+        console.log(this.newProducts);
+      })
     }
     ,
     mounted (){
       // Get categories
-      axios.get('/api/admin/category').then(response =>{
-        console.log(response.data);
+      axios.get('/api/category').then(response =>{
+
         this.categories=response.data;
-      })
+      }),
+
       // Get city and district
       axios.get('/data/tinh_tp.json').then(response=>{
 

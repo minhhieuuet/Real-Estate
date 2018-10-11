@@ -18,6 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('category','CategoryController@index');
+Route::group(['prefix'=>'product'],function(){
+  Route::get('hot','ProductController@hotProduct');
+  Route::get('new','ProductController@newProduct');
+});
 
 Route::group(['prefix'=>'admin'],function(){
   Route::group(['prefix'=>'category'],function(){
@@ -25,7 +29,7 @@ Route::group(['prefix'=>'admin'],function(){
       Route::post('edit','CategoryController@editCategory')->name('category.edit');
       Route::post('toogle','CategoryController@toogleShowHide');
   });
-  
+
   Route::group(['prefix'=>'product'],function(){
     Route::resource('/','ProductController');
   });

@@ -2,15 +2,15 @@
 @section('content')
 <div class="content" id="app">
   <div class="container">
-    <form class="" action="{{asset('api/admin/product')}}" method="post">
+    <form class="" action="{{asset('api/admin/product')}}" method="post" enctype="multipart/form-data">
       <div class="row">
         <div class="form-group col-md-5">
             <label for="">Tiêu đề</label>
-            <input class="form-control" type="text" name="title" placeholder="Nhập tiêu đề  sản phẩm"  value="">
+            <input class="form-control" type="text" name="title" required placeholder="Nhập tiêu đề  sản phẩm"  value="">
         </div>
         <div class="form-group col-md-5">
             <label for="">Thể loại</label>
-            <select class="form-control" name="category_id" >
+            <select class="form-control" name="category_id" required >
                 <option value="">Chọn thể loại</option>
                 <option v-for="category in categories" v-bind:value="category.id">@{{category.name}}</option>
             </select>
@@ -21,16 +21,22 @@
       <div class="row">
         <div class="form-group col-md-5">
           <label for="">Loại giao dịch</label>
-          <select class="form-control" name="type" >
+          <select class="form-control" name="type" required >
             <option value="">Chọn loại giao dịch</option>
             <option value="rent">Cho thuê</option>
             <option value="sale">Bán</option>
           </select>
         </div>
-        <div class="form-group col-md-5">
+        <div class="form-group col-md-2">
           <label for="">Giá tiền</label>
           <span>(VNĐ)</span>
-          <input class="form-control" type="number" name="price" placeholder="Nhập giá tiền" value="">
+          <input class="form-control" required type="number" name="price" placeholder="Nhập giá tiền" min="0" value="">
+
+        </div>
+        <div class="form-group col-md-3">
+          <label for="">Diện tích</label>
+          <span>(m2)</span>
+          <input class="form-control" required min="0" type="number" name="area" placeholder="Nhập diện tich" value="">
 
         </div>
       </div>
@@ -39,7 +45,7 @@
         <div class="form-group col-md-12">
           <h4>Ảnh và slideshow</h4>
           <label for="">Ảnh đại diện</label>
-          <input type="file" class="form-control" name="image" value="">
+          <input type="file" class="form-control" name="image" required value="">
           <h5>Slide show</h5>
         </div>
       </div>
@@ -87,15 +93,15 @@
           <table class="table">
               <tr>
                 <td><i class="fa fa-user"></i></td>
-                <td><input type="text" name="contactName" placeholder="Nhập tên liên hệ" class="form-control"></td>
+                <td><input type="text" required name="contactName" placeholder="Nhập tên liên hệ" class="form-control"></td>
               </tr>
               <tr>
                 <td><i class="fa fa-phone"></i></td>
-                <td><input type="phone" name="contactPhone" placeholder="Nhập số điện thoại liên hệ" class="form-control"></td>
+                <td><input type="phone" required name="contactPhone" placeholder="Nhập số điện thoại liên hệ" class="form-control"></td>
               </tr>
               <tr>
                 <td><i class="fa fa-envelope"></i></td>
-                <td><input type="email" name="contactEmail" placeholder="Nhập email liên hệ" class="form-control"></td>
+                <td><input type="email" required name="contactEmail" placeholder="Nhập email liên hệ" class="form-control"></td>
               </tr>
           </table>
         </div>
@@ -103,7 +109,7 @@
       <div class="row">
         <div class="form-group col-md-10">
             <h5>Vị trí</h5>
-            <input class="form-control" type="text" name="location" placeholder="Vui lòng nhập địa chỉ" value="">
+            <input required class="form-control" type="text" name="location" placeholder="Vui lòng nhập địa chỉ" value="">
         </div>
           <div class="form-group col-md-5">
             <select class="form-control col-md-5" name="city_code" v-on:change="getDistrict()"  v-model="selectedCity" >
@@ -119,14 +125,16 @@
           </div>
       </div>
       <div class="row" id="location-map">
-        <h4>Vị trí google map</h4>
+        <h4>Vị trí Google Map</h4>
+        <h6>Tham khảo: <a target="_blank" href="https://support.google.com/maps/answer/18539?co=GENIE.Platform%3DDesktop&hl=vi">Cách xem kinh độ vĩ độ trên Google Map</a></h6>
+
         <div class="form-group col-md-3">
             <label for="">Vĩ độ</label>
-            <input type="number" name="lat" v-model="inputLat" class="form-control" name="lat" value="0">
+            <input type="number" name="lat" step="any" v-model="inputLat" class="form-control" name="lat" value="0">
         </div>
         <div class="form-group col-md-3">
             <label for="">Kinh độ</label>
-            <input type="number" name="long" v-model="inputLong" class="form-control" name="long" value="0">
+            <input type="number" name="long" step="any" v-model="inputLong" class="form-control" name="long" value="0">
         </div>
         <div class="col-md-2">
             <button  @click="previewMap()" class="btn btn-success" type="button" name="button" id="preview-map">Xem trước</button>
@@ -137,7 +145,20 @@
         </div>
         </div>
       </div>
-        <button class="btn btn-success c" type="submit" >Gửi</button>
+      <div class="row">
+        <h4>Nhúng video youtube</h4>
+        <div class="col-md-7">
+          <label for="">Link</label>
+          <input type="text" class="form-control" v-model="videoLink" name="video" value="">
+        </div>
+
+        <div class="col-md-12">
+          <iframe width="620" height="500" v-if="videoLink!=''"
+          v-bind:src="videoLink.replace('watch?v=','embed/')">
+          </iframe>
+        </div>
+      </div>
+        <button class="btn btn-success " id="product-submit" type="submit" >Thêm sản phẩm</button>
       </form>
     </div>
 
@@ -149,6 +170,7 @@
     el:'#app',
     data (){
       return {
+        videoLink:'',
         selectedCity:'',
         selectedDistrict:'',
         inputAmenity:'',
@@ -156,12 +178,12 @@
         // LOcation
         inputLat:0,
         inputLong:0,
-        inputLocation:'http://maps.google.com/maps?q=35.856737,10.606619&z=15&output=embed',
+        inputLocation:'http://maps.google.com/maps?q=,10.606619&z=15&output=embed',
         //
         categories:[],
         districts:[],
-        amenities:[]
-
+        amenities:[],
+  
       }
     },
     methods:{

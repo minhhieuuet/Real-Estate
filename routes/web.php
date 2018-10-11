@@ -14,9 +14,7 @@
 Route::get('/', function () {
     return view('client.home');
 });
-Route::get('/product', function () {
-    return view('client.single-list');
-});
+Route::get('/product/{id}','HomeController@product');
 Route::get('/category', function () {
     return view('client.categories');
 });
