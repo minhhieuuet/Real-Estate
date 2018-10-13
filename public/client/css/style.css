@@ -2,7 +2,7 @@
 ------------------------------------
   LERAMIZ - Landing Page Template
   Version: 1.0
- ------------------------------------ 
+ ------------------------------------
  ====================================*/
 
 /*----------------------------------------*/
@@ -15,6 +15,7 @@ body {
 	font-family: 'Source Sans Pro', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
+	scroll-behavior: smooth;
 }
 
 h1,
@@ -79,7 +80,18 @@ ol {
 	padding: 0;
 	margin: 0;
 }
-
+.category-bar{
+	height:35px;
+	font-size:20px;
+	margin-bottom:20px;
+	color:white;
+}
+.category-bar .col-md-3{
+	background-color:	#6bd606;
+}
+.category-bar a{
+	float:right;
+}
 /*---------------------
 	Helper CSS
 -----------------------*/
@@ -395,7 +407,9 @@ ol {
 .propertie-item .rent-notic {
 	margin: 30px;
 }
-
+.propertie-item:hover{
+box-shadow: 0 8px 6px -6px black;
+}
 .propertie-info {
 	position: absolute;
 	left: 0;
@@ -404,8 +418,11 @@ ol {
 	padding: 30px;
 	padding-bottom: 20px;
 	z-index: 5;
+	opacity:0.8;
 }
-
+.propertie-info:hover{
+	opacity:1;
+}
 .propertie-info h5 {
 	margin-bottom: 8px;
 	font-weight: 400;

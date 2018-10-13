@@ -8,22 +8,23 @@
     <h2>Tìm kiếm ngôi nhà trong mơ của bạn</h2>
     <!-- <p>Search real estate property records, houses, condos, land and more on leramiz.com®.<br>Find property info from the most comprehensive source data.</p> -->
     <p>Nếu bạn đang tìm kiếm cho riêng mình một không gian riêng đầy tinh tế và thân thiện thì </br>đây đúng là nơi đáng sống cho gia đình bạn</p>
-    <a href="client/#" class="site-btn">Xem chi tiết</a>
+    <a href="#category-list" class="site-btn">Xem chi tiết</a>
   </div>
 </section>
 <!-- Filter form section -->
 <div class="filter-search">
   <div class="container">
-    <form class="filter-form">
-      <input type="text" placeholder="Nhập tên, địa chỉ, hoặc từ khóa">
-      <select v-on:change="getDistrict()" v-model="selectedCity">
-        <option value="" selected disabled>Thành phố</option>
+    <form class="filter-form" method="get" action="{{asset('tim-kiem')}}">
 
-        <option v-for="city in cities" v-bind:value="city.code" >@{{city.name}}</option>
+      <input type="query" placeholder="Nhập tên, địa chỉ, hoặc từ khóa" name="text">
+      <select v-on:change="getDistrict()" v-model="selectedCity" name="city" >
+        <option value="" selected disabled>Tỉnh / Thành phố</option>
+
+        <option v-for="city in cities" v-bind:value="city.code" >@{{city.name_with_type}}</option>
       </select>
-      <select v-model="selectedDistrict">
+      <select v-model="selectedDistrict" name="district" >
         <option value="" >Quận Huyện</option>
-        <option v-for="district in districts" value="">@{{district.name_with_type}}</option>
+        <option v-for="district in districts" v-bind:value="district.code">@{{district.name_with_type}}</option>
       </select>
 
       <button class="site-btn fs-submit">Tìm kiếm</button>
@@ -44,7 +45,7 @@
     </div>
     <div class="row" >
 
-      <div class="col-md-6" v-for="product in hotProducts" v-on:click="redirectProduct(product.id)">
+      <div class="col-md-6" v-for="product in hotProducts" v-on:click="redirectProduct(product)">
         <div class="propertie-item set-bg" v-bind:style="{backgroundImage:'url('+'image/product/'+product.image+')',cursor:'pointer'}" v-bind:data-setbg="'image/product/'+product.image" >
           {{--  --}}
           <div class="sale-notic" v-if="product.type=='sale'" >Đang bán</div>
@@ -79,28 +80,28 @@
       </div>
       <div class="col-lg-5 offset-lg-1 pl-lg-0">
         <div class="section-title text-white">
-          <h3>DỊCH VỤ CỦA CHÙNG TÔI</h3>
+          <h3>DỊCH VỤ CỦA CHÚNG TÔI</h3>
           <p>Chúng tôi cung cấp những dịch vụ hoàn hảo cho </p>
         </div>
         <div class="services">
           <div class="service-item">
             <i class="fa fa-comments"></i>
             <div class="service-text">
-              <h5>Consultant Service</h5>
+              <h5>Dịch Vụ Tư Vấn</h5>
               <p>In Aenean purus, pretium sito amet sapien denim consectet sed urna placerat sodales magna leo.</p>
             </div>
           </div>
           <div class="service-item">
             <i class="fa fa-home"></i>
             <div class="service-text">
-              <h5>Properties Management</h5>
+              <h5>Quản Lý Bất Động Sản</h5>
               <p>In Aenean purus, pretium sito amet sapien denim consectet sed urna placerat sodales magna leo.</p>
             </div>
           </div>
           <div class="service-item">
             <i class="fa fa-briefcase"></i>
             <div class="service-text">
-              <h5>Renting and Selling</h5>
+              <h5>Mua Bán và Cho Thuê</h5>
               <p>In Aenean purus, pretium sito amet sapien denim consectet sed urna placerat sodales magna leo.</p>
             </div>
           </div>
@@ -122,9 +123,10 @@
     <div class="row">
       <div class="col-lg-4 col-md-6" v-for="product in newProducts">
         <!-- feature -->
-        <div class="feature-item">
+        <div class="feature-item" @click="redirectProduct(product)">
           <div class="feature-pic set-bg" v-bind:style="{backgroundImage:'url('+'image/product/'+product.image+')',cursor:'pointer'}" v-bind:data-setbg="'image/product/'+product.image">
-            <div class="sale-notic">FOR SALE</div>
+            <div class="sale-notic" v-if="product.type=='rent'" style="background-color:green;">Cho thuê</div>
+            <div class="sale-notic" v-if="product.type=='sale'">Đang bán</div>
           </div>
           <div class="feature-text">
             <div class="text-center feature-title">
@@ -144,14 +146,16 @@
               </div>
               <div class="room-info">
                 <div class="rf-left">
-                  <p><i class="fa fa-user"></i> Tony Holland</p>
+                  <p><i class="fa fa-user"></i> Đỗ Minh Hiếu</p>
                 </div>
                 <div class="rf-right">
-                  <p><i class="fa fa-clock-o"></i> 1 days ago</p>
+                  <p><i class="fa fa-clock-o"></i> 1 ngày trước</p>
                 </div>
               </div>
             </div>
-            <a target="_blank" v-bind:href="'/product/'+product.id" class="room-price">@{{parseInt(product.price).toLocaleString()}} VNĐ</a>
+            <a target="_blank" v-if="product.type=='sale'" v-bind:href="'/product/'+product.id" class="room-price">@{{parseInt(product.price).toLocaleString()}} VNĐ</a>
+            <a target="_blank" v-if="product.type=='rent'" v-bind:href="'/product/'+product.id" class="room-price">@{{parseInt(product.price).toLocaleString()}} VNĐ/tháng</a>
+
           </div>
         </div>
       </div>
@@ -166,14 +170,14 @@
 
 
 <!-- feature category section -->
-<section class="feature-category-section spad">
+<section class="feature-category-section spad" id="category-list">
   <div class="container">
     <div class="section-title text-center">
       <h3>BẠN ĐANG TÌM KIẾM THỨ GÌ ?</h3>
       <!-- <p>What kind of property are you looking for? We will help you</p> -->
     </div>
     <div class="row">
-      <div class="col-lg-3 col-md-6 f-cata" v-for="category in categories" v-if="category.show">
+      <div class="col-lg-3 col-md-6 f-cata" v-for="category in categories" style="cursor:pointer;" v-on:click="redirectCategory(category)" v-if="category.show">
         <img v-bind:src="'image/category/'+category.image" alt="" width="264px" height="194px">
         <h5>@{{category.name}}</h5>
       </div>
@@ -193,28 +197,28 @@
     </div>
     <div class="gallery">
       <div class="grid-sizer"></div>
-      <a href="client/#" class="gallery-item grid-long set-bg" data-setbg="client/img/gallery/1.jpg">
+      <a href="{{asset('tim-kiem?city=79')}}" class="gallery-item grid-long set-bg" data-setbg="client/img/gallery/1.jpg">
         <div class="gi-info">
           <h3>TP. Hồ Chí Minh</h3>
-          <p>118 Properties</p>
+          {{-- <p>118 Properties</p> --}}
         </div>
       </a>
-      <a href="client/#" class="gallery-item grid-wide set-bg" data-setbg="client/img/gallery/2.jpg">
+      <a href="{{asset('tim-kiem?city=01')}}" class="gallery-item grid-wide set-bg" data-setbg="client/img/gallery/2.jpg">
         <div class="gi-info">
           <h3>Hà Nội</h3>
-          <p>112 Properties</p>
+
         </div>
       </a>
-      <a href="client/#" class="gallery-item set-bg" data-setbg="client/img/gallery/3.jpg">
+      <a href="{{asset('tim-kiem?city=48')}}" class="gallery-item set-bg" data-setbg="client/img/gallery/3.jpg">
         <div class="gi-info">
           <h3>Đà Nẵng</h3>
-          <p>72 Properties</p>
+          {{-- <p>72 Properties</p> --}}
         </div>
       </a>
-      <a href="client/#" class="gallery-item set-bg" data-setbg="client/img/gallery/4.jpg">
+      <a href="{{asset('/tim-kiem?district=568')}}" class="gallery-item set-bg" data-setbg="client/img/gallery/4.jpg">
         <div class="gi-info">
           <h3>Nha Trang</h3>
-          <p>50 Properties</p>
+          {{-- <p>50 Properties</p> --}}
         </div>
       </a>
 
@@ -328,9 +332,11 @@
       }
     },
     methods:{
-      redirectProduct (id){
-        console.log(id);
-        window.open(window.location.origin+'/product/'+id,'_blank');
+      redirectProduct (product){
+        window.open(window.location.origin+'/san-pham/'+product.slug+'/'+product.id,'_blank');
+      },
+      redirectCategory (category){
+        window.open(window.location.origin+'/danh-muc/'+category.slug+'/'+category.id,'_blank');
       },
       getDistrict (){
         console.log(this.selectedCity);

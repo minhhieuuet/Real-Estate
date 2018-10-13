@@ -11,19 +11,19 @@
 <!-- Breadcrumb -->
 <div class="site-breadcrumb">
 	<div class="container">
-		<a href=""><i class="fa fa-home"></i>Home</a>
-		<span><i class="fa fa-angle-right"></i>Blog Grid</span>
+		<a href=""><i class="fa fa-home"></i>Trang chủ</a>
+		<span><i class="fa fa-angle-right"></i>Liên hệ</span>
 	</div>
 </div>
 
 <!-- page -->
 <section class="page-section blog-page">
 	<div class="container">
-		
+
 		<div class="contact-info-warp">
-			<p><i class="fa fa-map-marker"></i>3711-2880 Nulla St, Mankato, Mississippi</p>
-			<p><i class="fa fa-envelope"></i>info.leramiz@colorlib.com</p>
-			<p><i class="fa fa-phone"></i>(+88) 666 121 4321</p>
+			<p><i class="fa fa-map-marker"></i>Đỗ Minh Hiếu</p>
+			<p><i class="fa fa-envelope"></i>minhhieuuet@gmail.com</p>
+			<p><i class="fa fa-phone"></i>0963871598</p>
 		</div>
 		<div class="row">
 			<div class="col-lg-6">

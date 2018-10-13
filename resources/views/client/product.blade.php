@@ -24,7 +24,7 @@
         <div class="single-list-slider owl-carousel" id="sl-slider">
           @for($i=0;$i<5;$i++)
           <div class="sl-item set-bg" data-setbg="{{asset('image/product/'.$product['image'])}}">
-            <div class="sale-notic">{{$product['type']=='SALE'?'ĐANG BÁN':'CHO THUÊ'}}</div>
+            <div class="sale-notic">{{$product['type']=='sale'?'ĐANG BÁN':'CHO THUÊ'}}</div>
           </div>
           @endfor
         </div>
@@ -37,13 +37,13 @@
           <div class="row">
             <div class="col-xl-8 sl-title">
               <h2>{{$product->title}}</h2>
-              <p><i class="fa fa-map-marker"></i> @{{name}}</p>
+              <p><i class="fa fa-map-marker"></i> {{$product->location}}</p>
             </div>
             <div class="col-xl-4">
-            @if($product->type=="sale")
-              <a href="#" class="price-btn" id="product-price">{{$product->price}}</a>
+            @if($product->type =="sale")
+              <a href="#" class="price-btn" id="product-price">{{$product->price}}VNĐ</a>
             @else
-              <a href="#" class="price-btn" id="product-price">{{$product->price}}</a>
+              <a href="#" class="price-btn" id="product-price">{{$product->price}}VNĐ/tháng</a>
             @endif
             </div>
           </div>
@@ -65,18 +65,20 @@
           </div>
           <h3 class="sl-sp-title">Đặc điểm nổi bật</h3>
           <div class="row property-details-list">
+            {{-- split amenites by ; and foreach --}}
           @foreach(explode(";",$product->amenities) as $amenity )
             <div class="col-md-4 col-sm-6">
               <p><i class="fa fa-check-circle-o"></i> {{$amenity}}</p>
             </div>
           @endforeach
+          {{-- end amenites --}}
           </div>
 
 
 
           <h3 class="sl-sp-title bd-no">Địa chỉ</h3>
           <div class="pos-map" id="map-canvas">
-            <iframe src="https://maps.google.com/maps?q=21.0802711,105.5941409&hl=es;z=14&amp;output=embed" width="700" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <iframe src="{{'https://maps.google.com/maps?q='.$product->long.','.$product->lat.'&hl=es;z=14&amp;output=embed'}}" width="700" height="350" frameborder="0" style="border:0" allowfullscreen></iframe>
           </div>
         </div>
       </div>
@@ -102,46 +104,29 @@
         </div>
         <div class="related-properties">
           <h2>CÙNG THỂ LOẠI</h2>
+          @foreach($relatedProducts as $product)
           <div class="rp-item">
-            <div class="rp-pic set-bg" data-setbg="client/img/feature/1.jpg">
-              <div class="sale-notic">FOR SALE</div>
+            <div class="rp-pic set-bg" data-setbg="{{asset('image/product/'.$product['image'])}}">
+              {{-- if else title of product --}}
+            @if($product['type']=='sale')
+              <div class="sale-notic" >Đang bán</div>
+            @else
+              <div class="sale-notic" style="background-color:green;">Cho thuê</div>
+            @endif
             </div>
             <div class="rp-info">
-              <h5>1963 S Crescent Heights Blvd</h5>
-              <p><i class="fa fa-map-marker"></i>Los Angeles, CA 90034</p>
+              <h5>{{$product['title']}}</h5>
+              <p><i class="fa fa-map-marker"></i>{{$product['location']}}</p>
             </div>
-            <a href="#" class="rp-price">$1,200,000</a>
+
+            @if($product['type']=='sale')
+            <a href="{{asset('san-pham/'.$product['slug'].'/'.$product['id'])}}" class="rp-price">{{number_format($product['price'],0,',','.')}} VNĐ</a>
+          @else
+            <a href="{{asset('san-pham/'.$product['slug'].'/'.$product['id'])}}" class="rp-price">{{number_format($product['price'],0,',','.')}} VNĐ/tháng</a>
+          @endif
+
           </div>
-          <div class="rp-item">
-            <div class="rp-pic set-bg" data-setbg="client/img/feature/2.jpg">
-              <div class="rent-notic">FOR Rent</div>
-            </div>
-            <div class="rp-info">
-              <h5>17 Sturges Road, Wokingham</h5>
-              <p><i class="fa fa-map-marker"></i> Newtown, CT 06470</p>
-            </div>
-            <a href="#" class="rp-price">$2,500/month</a>
-          </div>
-          <div class="rp-item">
-            <div class="rp-pic set-bg" data-setbg="client/img/feature/4.jpg">
-              <div class="sale-notic">FOR SALE</div>
-            </div>
-            <div class="rp-info">
-              <h5>28 Quaker Ridge Road, Manhasset</h5>
-              <p><i class="fa fa-map-marker"></i>28 Quaker Ridge Road, Manhasset</p>
-            </div>
-            <a href="#" class="rp-price">$5,600,000</a>
-          </div>
-          <div class="rp-item">
-            <div class="rp-pic set-bg" data-setbg="client/img/feature/5.jpg">
-              <div class="rent-notic">FOR Rent</div>
-            </div>
-            <div class="rp-info">
-              <h5>Sofi Berryessa 750 N King Road</h5>
-              <p><i class="fa fa-map-marker"></i>Sofi Berryessa 750 N King Road</p>
-            </div>
-            <a href="#" class="rp-price">$1,600/month</a>
-          </div>
+        @endforeach
         </div>
       </div>
     </div>
@@ -151,7 +136,12 @@
 <script type="text/javascript">
 // Add thorusand dot to price
   Array.from(document.getElementsByClassName('price-btn')).map(btn=>{
-    btn.innerHTML = parseInt(btn.innerHTML).toLocaleString() +" VNĐ";
+    if(!btn.innerHTML.includes('tháng')){
+      btn.innerHTML = parseInt(btn.innerHTML).toLocaleString() +" VNĐ";
+    }
+    else{
+      btn.innerHTML = parseInt(btn.innerHTML).toLocaleString() +" VNĐ/tháng";
+    }
 
   })
 </script>

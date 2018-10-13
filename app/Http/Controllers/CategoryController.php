@@ -35,8 +35,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $category=new Category();
-        $category->name = $request->name;
-        $category->slug = str_slug($request->name,'-');
+        $category -> name = $request-> name;
+        $category -> slug = str_slug($request -> name,'-');
 
         if($request->hasFile('image')){
           $file = $request->image;
@@ -44,8 +44,8 @@ class CategoryController extends Controller
           $file->move('image/category',$name);
           $category->image = $name;
         }
-
-        $category->description = $request->description;
+        $category -> parent_id = $request -> parent_id;
+        $category -> description = $request -> description;
         $category->save();
         return redirect()->back();
     }
@@ -88,6 +88,7 @@ class CategoryController extends Controller
           $file -> move('image/category',$name);
           $category->image = $name;
         }
+        $category -> parent_id = $request -> parent_id;
         $category->save();
         return redirect()->back()->with('alert','Done');
     }

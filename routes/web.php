@@ -14,20 +14,23 @@
 Route::get('/', function () {
     return view('client.home');
 });
-Route::get('/product/{id}','HomeController@product');
-Route::get('/category', function () {
-    return view('client.categories');
-});
+
+Route::get('san-pham','HomeController@productsAll');
+Route::get('/san-pham/{slug}/{id}','HomeController@product');
+
+Route::get('danh-muc/{slug}/{id}','HomeController@productsByCategory');
+Route::get('/tim-kiem','HomeController@productsByQuery');
+
+
 Route::get('/about', function () {
     return view('client.about');
 });
-Route::get('/contact', function () {
+Route::get('/lien-he', function () {
     return view('client.contact');
 });
-Route::get('/upload',function(){
-  return view('upload');
-});
-Route::post('/details','HomeController@upload');
+
+
+
 
 // Admin
 Route::group(['prefix'=>'admin'],function(){

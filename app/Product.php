@@ -17,6 +17,6 @@ class Product extends Model
       return $this->hasMany('App\Gallery','product_id','id');
     }
     public function coordinate(){
-      return $this->hasMany('App\Coordinate','product_id','id');
+      return $this->hasOne('App\Coordinate','product_id','id');
     }
 }

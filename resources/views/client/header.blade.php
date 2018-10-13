@@ -32,17 +32,17 @@
     <div class="row">
       <div class="col-12">
         <div class="site-navbar">
-          <a href="client/#" class="site-logo"><img src="{{asset('client/img/logo.png')}}" alt=""></a>
+          <a href="{{asset('')}}" class="site-logo"><img src="{{asset('client/img/logo.png')}}" alt=""></a>
           <div class="nav-switch">
             <i class="fa fa-bars"></i>
           </div>
           <ul class="main-menu">
             <li><a href="/">Trang chủ</a></li>
-            <li><a href="category">Danh sách căn hộ</a></li>
+            <li><a href="/san-pham">Danh sách căn hộ</a></li>
             <li><a href="/about ">Về Chúng Tôi</a></li>
 
             <li><a href="client/blog.html">Tin Tức</a></li>
-            <li><a href="/contact">Liên hệ</a></li>
+            <li><a href="/lien-he">Liên hệ</a></li>
           </ul>
         </div>
       </div>
