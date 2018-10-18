@@ -131,17 +131,17 @@
           <div class="feature-text">
             <div class="text-center feature-title">
               <h5>@{{product.title}}</h5>
-              <p><i class="fa fa-map-marker"></i> Los Angeles, CA 90034</p>
+              <p><i class="fa fa-map-marker"></i> @{{product.location}}</p>
             </div>
             <div class="room-info-warp">
               <div class="room-info">
                 <div class="rf-left">
                   <p><i class="fa fa-th-large"></i> @{{product.area}} m<sup>2</sup></p>
-                  <p><i class="fa fa-bed"></i> 10 Bedrooms</p>
+
                 </div>
                 <div class="rf-right">
-                  <p><i class="fa fa-car"></i> 2 Garages</p>
-                  <p><i class="fa fa-bath"></i> 6 Bathrooms</p>
+                  <p><i class="fa fa-life-ring" ></i> Trợ giá</p>
+
                 </div>
               </div>
               <div class="room-info">
@@ -189,13 +189,13 @@
 
 
 <!-- Gallery section -->
-<section class="gallery-section spad">
+<section class="gallery-section spad" >
   <div class="container">
     <div class="section-title text-center">
       <h3>ĐỊA ĐIỂM HẤP DẪN</h3>
       <p>Những dịa điểm hấp dẫn bạn không thể bỏ qua</p>
     </div>
-    <div class="gallery">
+    <div class="gallery" id="relatedLocation">
       <div class="grid-sizer"></div>
       <a href="{{asset('tim-kiem?city=79')}}" class="gallery-item grid-long set-bg" data-setbg="client/img/gallery/1.jpg">
         <div class="gi-info">
@@ -253,7 +253,7 @@
 <!-- Review section end-->
 
 
-<!-- Blog section -->
+{{-- <!-- Blog section -->
 <section class="blog-section spad">
   <div class="container">
     <div class="section-title text-center">
@@ -291,7 +291,7 @@
     </div>
   </div>
 </section>
-<!-- Blog section end -->
+<!-- Blog section end --> --}}
 
 <!-- Clients section -->
 <div class="clients-section">
@@ -339,8 +339,8 @@
         window.open(window.location.origin+'/danh-muc/'+category.slug+'/'+category.id,'_blank');
       },
       getDistrict (){
-        console.log(this.selectedCity);
-        axios.get('/data/quan_huyen.json').then(response=>{
+
+        axios.get('/api/location/district').then(response=>{
           this.districts=[];
           let allDistricts=Object.values(response.data);
           allDistricts.forEach(district=>{
@@ -362,7 +362,7 @@
       axios.get('/api/product/new').then(response =>{
 
         this.newProducts = response.data;
-        console.log(this.newProducts);
+
       })
     }
     ,
@@ -374,9 +374,9 @@
       }),
 
       // Get city and district
-      axios.get('/data/tinh_tp.json').then(response=>{
+      axios.get('api/location/city').then(response=>{
 
-        this.cities=Object.values(response.data);
+        this.cities=response.data;
 
       })
     }

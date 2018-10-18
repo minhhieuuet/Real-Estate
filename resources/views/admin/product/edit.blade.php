@@ -6,12 +6,12 @@
       <div class="row">
         <div class="form-group col-md-5">
             <label for="">Tiêu đề</label>
-            <input class="form-control" type="text" name="title" required placeholder="Nhập tiêu đề  sản phẩm"  value="">
+            <input class="form-control" type="text" name="title" required placeholder="Nhập tiêu đề  sản phẩm"  value="{{$product['title']}}">
         </div>
         <div class="form-group col-md-5">
             <label for="">Thể loại</label>
-            <select class="form-control" name="category_id" required >
-                <option value="">Chọn thể loại</option>
+            <select class="form-control" name="category_id" value="{{$product['category_id']}}" required >
+
                 <option v-for="category in categories" v-bind:value="category.id">@{{category.name}}</option>
             </select>
         </div>
@@ -21,8 +21,8 @@
       <div class="row">
         <div class="form-group col-md-5">
           <label for="">Loại giao dịch</label>
-          <select class="form-control" name="type" required >
-            <option value="">Chọn loại giao dịch</option>
+          <select class="form-control" name="type" value="{{$product['type']}}" required >
+
             <option value="rent">Cho thuê</option>
             <option value="sale">Bán</option>
           </select>
@@ -30,13 +30,13 @@
         <div class="form-group col-md-2">
           <label for="">Giá tiền</label>
           <span>(VNĐ)</span>
-          <input class="form-control" required type="number" name="price" placeholder="Nhập giá tiền" min="0" value="">
+          <input class="form-control" required type="number" name="price" placeholder="Nhập giá tiền" min="0" value="{{$product['price']}}">
 
         </div>
         <div class="form-group col-md-3">
           <label for="">Diện tích</label>
           <span>(m2)</span>
-          <input class="form-control" required min="0" type="number" name="area" placeholder="Nhập diện tich" value="">
+          <input class="form-control" required min="0" type="number" name="area" placeholder="Nhập diện tich" value="{{$product['area']}}">
 
         </div>
       </div>
@@ -47,7 +47,7 @@
           <h4>Ảnh và slideshow</h4>
           <label for="">Ảnh đại diện</label>
           <input type="file" v-on:change="handleAvatarUpload()" class="form-control" width="921px" height="490px" name="image" ref="file"  required >
-          <img v-bind:src="previewAvatar" alt="">
+          <img v-bind:src="previewAvatar" src="{{asset('image/product/'.$product['image'])}}" alt="">
           {{-- Slide --}}
           <h5>Slide show</h5>
           <input type="file" class="form-control" id="galleryImages" @change="handleGalleryUpload" ref="gallery" multiple name="" value="">
@@ -65,14 +65,16 @@
       <div class="row">
         <div class="col-md-12">
             <h4>Mô tả</h4>
-            <textarea  class="form-control ckeditor" name="description" rows="8" cols="80"></textarea>
+            <textarea  class="form-control ckeditor" name="description" rows="8" cols="80">
+              {!!$product['description']!!}
+            </textarea>
         </div>
       </div>
       <div class="row">
         <div class="col-md-5">
               <h4>Đặc điểm nổi bật</h4>
               <!-- Convert amenities array to input -->
-            <input type="hidden" name="amenities" v-bind:value="amenities.join(';')">
+            <input type="hidden" name="amenities" v-model="amenity"  value="{{$product['amenities']}}">
             <!-- End convert -->
             <table class="table" style="background-color:white;">
                 <thead>
@@ -122,20 +124,24 @@
       <div class="row">
         <div class="form-group col-md-10">
             <h5>Vị trí</h5>
-            <input required class="form-control" type="text" name="location" placeholder="Vui lòng nhập địa chỉ" value="">
+            <input required class="form-control" type="text" name="location" placeholder="Vui lòng nhập địa chỉ" value="{{$product['location']}}">
+            <h5>{{$product->district['path_with_type']}} <button type="button" class="btn btn-info" @click="showEditLocation = !showEditLocation" name="button">Sửa vị trí</button></h5>
+
         </div>
+        <div v-if="showEditLocation">
           <div class="form-group col-md-5">
-            <select class="form-control col-md-5" name="city_code" v-on:change="getDistrict()"  v-model="selectedCity" >
-              <option value="" selected disabled>Thành phố</option>
+            <select  class="form-control col-md-5" name="city_code" city_code="{{$product['city_code']}}"  v-on:change="getDistrict()"  v-model="selectedCity" >
+              <option value="">Chọn thành phố</option>
               <option v-for="city in cities" v-bind:value="city.code" >@{{city.name}}</option>
             </select>
           </div>
           <div class="form-group col-md-5">
             <select class="form-control col-md-5" name="district_code" v-model="selectedDistrict">
               <option value="" selected disabled >Quận Huyện</option>
-              <option v-for="district in districts" v-bind:value="district.code">@{{district.name_with_type}}</option>
+              <option v-for="district in districts" value="{{$product['video']}}" v-bind:value="district.code">@{{district.name_with_type}}</option>
             </select>
           </div>
+        </div>
       </div>
       <div class="row" id="location-map">
         <h4>Vị trí Google Map</h4>
@@ -189,8 +195,10 @@
         inputAmenity:'',
         cities:[],
         previewAvatar:'',
+        showEditLocation:false,
         file:'',
         galleryImages:[],
+        amenity:'',
         // LOcation
         inputLat:0,
         inputLong:0,
@@ -256,7 +264,7 @@
       },
       getDistrict (){
         //get districs list on change city
-        axios.get('/api/location/district').then(response=>{
+        axios.get(window.location.origin +'/api/location/district').then(response=>{
           this.districts=[];
           let allDistricts=Object.values(response.data);
           allDistricts.forEach(district=>{
@@ -276,9 +284,9 @@
     }
     ,
     mounted (){
+
       // Get categories on mount
-      this.getCategories(),
-      // Get city and district
+      this.getCategories();
       axios.get(window.location.origin +'/api/location/city').then(response=>{
 
         this.cities=response.data;

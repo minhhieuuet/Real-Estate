@@ -6,9 +6,18 @@ use Illuminate\Http\Request;
 use App\Location;
 use App\Product;
 use App\Category;
+use App\Subscriber;
 class HomeController extends Controller
 {
-
+  public function getDistricts(){
+    $districts = Location::where('parent_code','>',0)->get();
+    return $districts;
+  }
+  // Get all cities
+  public function getCities(){
+    $cities = Location::where('parent_code',0)->get();
+    return $cities;
+  }
   // Render product details by ID
   public function product($slug,$id){
     $product = Product::findOrFail($id);
@@ -50,7 +59,16 @@ class HomeController extends Controller
 
     return view('client.search-result',compact('products','place'));
   }
+  // Render login page
 
+
+  public function addSuscriberEmail(Request $request){
+      $request -> validate([
+        'email' =>'required|email|unique:subscribers'
+      ]);
+      Subscriber::create(['email'=>$request['email']]);
+      return "success";
+  }
 
 
 }

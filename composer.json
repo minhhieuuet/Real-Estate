@@ -9,6 +9,7 @@
         "crocodicstudio/crudbooster": "5.3.2.*",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
+        "laravel/passport": "^7.0",
         "laravel/tinker": "^1.0"
     },
     "require-dev": {

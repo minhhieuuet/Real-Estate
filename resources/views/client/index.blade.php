@@ -29,7 +29,7 @@
 	</div>
 
 	<!-- Header section -->
-	@include('client/header')
+	@include('client.header')
 
 
   @yield('content')

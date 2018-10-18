@@ -7,7 +7,7 @@
                 <span class="icon-bar bar2"></span>
                 <span class="icon-bar bar3"></span>
             </button>
-            <a class="navbar-brand" href="#">Dashboard</a>
+            <a class="navbar-brand" href="{{asset('admin')}}">Dashboard</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -18,25 +18,31 @@
                     </a>
                 </li>
                 <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="ti-bell"></i>
                             <p class="notification">5</p>
-          <p>Notifications</p>
+          <p>Thông báo</p>
           <b class="caret"></b>
                       </a>
-                      <ul class="dropdown-menu">
+                    <ul class="dropdown-menu">
                         <li><a href="#">Notification 1</a></li>
                         <li><a href="#">Notification 2</a></li>
                         <li><a href="#">Notification 3</a></li>
                         <li><a href="#">Notification 4</a></li>
                         <li><a href="#">Another notification</a></li>
-                      </ul>
+                    </ul>
                 </li>
-    <li>
+                <li>
                     <a href="#">
         <i class="ti-settings"></i>
-        <p>Settings</p>
+        <p>Cài đặt</p>
                     </a>
+                </li>
+                <li>
+                  <a href="{{asset('dang-xuat')}}">
+      <i class="fas fa-sign-out-alt"></i>
+      <p>Thoát</p>
+                  </a>
                 </li>
             </ul>
 

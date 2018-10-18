@@ -77,9 +77,9 @@
 							</div>
 						</div>
 						@if($product['type']=='sale')
-						<a href="{{asset('product/'.$product['id'])}}" class="room-price">{{number_format($product['price'],0,',','.')}} VNĐ</a>
+						<a href="{{asset('san-pham/'.$product['slug'].'/'.$product['id'])}}" class="room-price">{{number_format($product['price'],0,',','.')}} VNĐ</a>
 					@else
-						<a href="{{asset('product/'.$product['id'])}}" class="room-price">{{number_format($product['price'],0,',','.')}} VNĐ/tháng</a>
+						<a href="{{asset('san-pham/'.$product['slug'].'/'.$product['id'])}}" class="room-price">{{number_format($product['price'],0,',','.')}} VNĐ/tháng</a>
 					@endif
 					</div>
 				</div>

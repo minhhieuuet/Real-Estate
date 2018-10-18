@@ -1,4 +1,4 @@
-<header class="header-section">
+<header class="header-section" id="top">
   <div class="header-top">
     <div class="container">
       <div class="row">
@@ -14,15 +14,15 @@
         </div>
         <div class="col-lg-6 text-lg-right header-top-right">
           <div class="top-social">
-            <a href="client/"><i class="fa fa-facebook"></i></a>
-            <a href="client/"><i class="fa fa-twitter"></i></a>
+            <a href="https://www.facebook.com/giveup.nevo"><i class="fa fa-facebook"></i></a>
+            {{-- <a href="client/"><i class="fa fa-twitter"></i></a>
             <a href="client/"><i class="fa fa-instagram"></i></a>
             <a href="client/"><i class="fa fa-pinterest"></i></a>
-            <a href="client/"><i class="fa fa-linkedin"></i></a>
+            <a href="client/"><i class="fa fa-linkedin"></i></a> --}}
           </div>
           <div class="user-panel">
-            <a href="client/"><i class="fa fa-user-circle-o"></i> Register</a>
-            <a href="client/"><i class="fa fa-sign-in"></i> Login</a>
+            {{-- <a href="client/"><i class="fa fa-user-circle-o"></i> Register</a> --}}
+            <a href="dang-nhap"><i class="fa fa-sign-in"></i> Login</a>
           </div>
         </div>
       </div>

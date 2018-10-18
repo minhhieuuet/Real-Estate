@@ -21,7 +21,7 @@
                               </div>
                               <div class="form-group">
                                 <label for="inputDescription">Mô tả</label>
-                                <input type="text" class="form-control" id="inputDescription" name="description">
+                                <input type="text" class="form-control" id="inputDescription"  name="description">
                               </div>
                               <div class="form-group">
                                 <label for="inputImage">Danh mục cha</label>
@@ -33,7 +33,8 @@
                               </div>
                               <div class="form-group">
                                 <label for="inputImage">Ảnh</label>
-                                <input type="file" class="form-control" id="inputImage" name="image">
+                                <input type="file" class="form-control" ref="file" @change="handleFileUpload()" accept="image/*" id="file" name="image" width="502" height="364">
+                                <img v-bind:src="imagePreview" id="previewImage" alt="">
                               </div>
                               <button type="submit" class="btn btn-primary">Xác nhận</button>
                             </form>
@@ -49,7 +50,7 @@
                               @csrf
                              <input type="hidden" name="id" v-model="editingCategory.id" >
                               <div class="form-group">
-                                  <label for="inputName">Name</label>
+                                  <label for="inputName">Tiêu đề</label>
                                 <input type="text" class="form-control" id="inputName" name="name" v-model="editingCategory.name" required>
                               </div>
                               <div class="form-group">
@@ -65,9 +66,9 @@
                                 </select>
                               </div>
                               <div class="form-group">
-                                <label for="inputImage">Image</label>
-                                <input type="file" class="form-control" id="inputImage" name="image">
-                                <img v-bind:src="'../image/category/'+editingCategory.image" alt="">
+                                <label for="inputImage">Ảnh đại diện</label>
+                                <input type="file" class="form-control" ref="file" @change="handleEditFileUpload()" id="editImage" accept="image/*" name="image"  >
+                                <img v-bind:src="editingImage" width="502" height="364" alt="">
                               </div>
                               <button type="submit" class="btn btn-primary">Xác nhận</button>
                             </form>
@@ -100,8 +101,11 @@
                                     <button v-if="category.show==0" v-on:click="toogleShowHide(category.id)" type="button" class="btn btn-danger" name="button">Đang ẩn</button>
                                   </td>
                                   <td>
-                                      <a href="#edit-form"><button type="button" style="border-radius:10px 10px 0px 0px;" class="btn btn-success" name="button" @click="showEditingCategory(category)">Sửa</button></a>
-                                      <button type="button"  style="border-radius:0px 0px 10px 10px;" class="btn btn-danger" name="button" @click="deleteCategory(category)">Xóa</button>
+                                      <div class=" btn-group-vertical">
+                                        <button type="button"  class="btn btn-success" name="button" @click="showEditingCategory(category)"><a href="#edit-form">Sửa </a></button>
+                                        <button type="button"class="btn btn-danger" name="button" @click="deleteCategory(category)">Xóa</button>
+                                      </div>
+
                                   </td>
                                 </tr>
 
@@ -122,11 +126,43 @@
       return {
         isActiveAddForm:false,
         isActiveEditForm:false,
+        file:'',
+        editingImage:'',
+        imagePreview:'',
         editingCategory:{},
         categories:[]
       }
     },
     methods: {
+      // hande add form image
+      handleFileUpload (){
+        this.file = this.$refs.file.files[0];
+
+         let reader  = new FileReader();
+
+         reader.addEventListener("load", function () {
+
+          this.imagePreview = reader.result;
+        }.bind(this), false);
+         if( this.file ){
+           reader.readAsDataURL( this.file );
+         }
+
+      },
+      handleEditFileUpload (){
+          this.file = this.$refs.file.files[0];
+
+          let reader = new FileReader();
+          reader.addEventListener('load',function(){
+            this.editingImage = reader.result;
+          }.bind(this),false);
+          if(this.file){
+            reader.readAsDataURL(this.file);
+          }
+
+      }
+      ,
+      // Get paarent name
       getParent:function(parent_id){
         let name='Không có';
         for(let i=0;i<this.categories.length;i++){
@@ -145,6 +181,7 @@
         this.isActiveEditForm = true;
         this.isActiveAddForm = false;
         this.editingCategory=category;
+        this.editingImage = '../image/category/'+this.editingCategory.image;
       },
       // Toogle show and hide category on home page
       toogleShowHide:function(idCategory){
@@ -171,14 +208,13 @@
           dangerMode: true,
         }).then(willDel=>{
           if(willDel){
-            axios.delete('/api/category/'+category.id)
+            axios.delete('/api/admin/category/'+category.id)
             .then(response=>{
 
               this.getCategories();
               swal({
                 title:response.data,
                 icon:"success",
-
               })
             })
           }

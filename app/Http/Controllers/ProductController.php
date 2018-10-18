@@ -15,7 +15,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Product::all();
+        $products = Product::orderBy('id','DESC')->get();
+        return  view('admin.product.index',compact('products'));
     }
     public function hotProduct(){
       return Product::take(4)->get();
@@ -112,7 +113,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        return view('admin.product.edit',compact('product'));
     }
 
     /**
@@ -135,6 +137,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product -> delete();
+        return "success";
     }
 }

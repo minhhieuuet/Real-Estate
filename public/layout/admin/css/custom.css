@@ -1,3 +1,6 @@
+html,body{
+  	scroll-behavior: smooth;
+}
 #info-table i{
     font-size:30px;
 }

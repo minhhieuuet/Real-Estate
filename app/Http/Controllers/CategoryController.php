@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Category;
+use Auth;
 class CategoryController extends Controller
 {
     /**
@@ -13,7 +14,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
-      return Category::all();
+
+          return Category::all();
+
+
     }
 
     /**

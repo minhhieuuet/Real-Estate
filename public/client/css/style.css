@@ -551,6 +551,9 @@ box-shadow: 0 8px 6px -6px black;
 
 .feature-title {
 	padding-top: 20px;
+
+	height:95px;
+
 }
 
 .feature-title h5 {
